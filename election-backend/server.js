@@ -55,7 +55,6 @@ app.get('/api/seed-now', async (req, res) => {
       return res.status(500).json({ error: 'Database not connected' });
     }
 
-    // Dynamically load models
     const Timeline = require('./models/Timeline');
     const Glossary = require('./models/Glossary');
     const Quiz = require('./models/Quiz');
@@ -70,107 +69,102 @@ app.get('/api/seed-now', async (req, res) => {
     // Seed Timeline
     await Timeline.create([
       {
+        phase: 'Pre-Election',
         title: 'Announcement of Election',
-        description: 'The Election Commission announces the election schedule, including dates for voting and results.',
-        date: 'Step 1',
+        status: 'done',
+        label: 'Completed',
+        desc: 'The Election Commission announces the election schedule, including dates for voting and results.',
+        details: ['Election dates are notified', 'Model Code of Conduct comes into effect', 'Political parties prepare their manifestos'],
         order: 1
       },
       {
+        phase: 'Pre-Election',
         title: 'Nomination Filing',
-        description: 'Candidates file their nominations with the Election Commission within the specified period.',
-        date: 'Step 2',
+        status: 'done',
+        label: 'Completed',
+        desc: 'Candidates file their nominations with the Election Commission within the specified period.',
+        details: ['Candidates submit nomination papers', 'Scrutiny of nominations takes place', 'Withdrawal of candidatures allowed'],
         order: 2
       },
       {
+        phase: 'Campaign',
         title: 'Campaign Period',
-        description: 'Candidates campaign across constituencies to garner support from voters.',
-        date: 'Step 3',
+        status: 'active',
+        label: 'In Progress',
+        desc: 'Candidates campaign across constituencies to garner support from voters.',
+        details: ['Public rallies and meetings held', 'Door-to-door campaigns conducted', 'Media advertisements released'],
         order: 3
       },
       {
+        phase: 'Voting',
         title: 'Voting Day',
-        description: 'Citizens cast their votes at designated polling stations across the country.',
-        date: 'Step 4',
+        status: 'upcoming',
+        label: 'Upcoming',
+        desc: 'Citizens cast their votes at designated polling stations across the country.',
+        details: ['Polling stations open 7am to 6pm', 'Voters must carry valid ID proof', 'VVPAT machines verify votes'],
         order: 4
       },
       {
+        phase: 'Post-Election',
         title: 'Counting & Results',
-        description: 'Votes are counted and results are declared by the Election Commission.',
-        date: 'Step 5',
+        status: 'upcoming',
+        label: 'Upcoming',
+        desc: 'Votes are counted and results are declared by the Election Commission.',
+        details: ['Counting begins at 8am', 'Postal ballots counted first', 'Results declared constituency-wise'],
         order: 5
       }
     ]);
 
     // Seed Glossary
     await Glossary.create([
-      {
-        term: 'Ballot',
-        definition: 'A device used to cast votes in an election, which may be a paper ballot or electronic voting machine.',
-        category: 'Voting'
-      },
-      {
-        term: 'Constituency',
-        definition: 'A geographic area whose residents are represented by an elected official.',
-        category: 'Structure'
-      },
-      {
-        term: 'Electoral Roll',
-        definition: 'The official list of people entitled to vote in an election, also called the voters list.',
-        category: 'Voting'
-      },
-      {
-        term: 'Mandate',
-        definition: 'The authority granted by voters to an elected representative to act on their behalf.',
-        category: 'Governance'
-      },
-      {
-        term: 'Nomination',
-        definition: 'The formal process by which a candidate is proposed to stand for election.',
-        category: 'Process'
-      },
-      {
-        term: 'Polling Station',
-        definition: 'A designated location where voters go to cast their ballots on election day.',
-        category: 'Voting'
-      }
+      { term: 'Ballot', def: 'A device used to cast votes in an election, which may be a paper ballot or electronic voting machine (EVM).' },
+      { term: 'Constituency', def: 'A geographic area whose residents are represented by an elected official in the legislature.' },
+      { term: 'Electoral Roll', def: 'The official list of people entitled to vote in an election, also known as the voters list.' },
+      { term: 'Mandate', def: 'The authority granted by voters to an elected representative to govern and make decisions on their behalf.' },
+      { term: 'Nomination', def: 'The formal process by which a candidate is proposed to stand for election in a constituency.' },
+      { term: 'Polling Station', def: 'A designated location where voters go to cast their ballots on election day.' },
+      { term: 'EVM', def: 'Electronic Voting Machine — a device used in Indian elections to record votes electronically, replacing paper ballots.' },
+      { term: 'NOTA', def: 'None of the Above — an option on the ballot that allows voters to reject all candidates contesting from a constituency.' },
+      { term: 'Model Code of Conduct', def: 'A set of guidelines issued by the Election Commission to regulate political parties and candidates during elections.' },
+      { term: 'Affidavit', def: 'A sworn statement filed by candidates declaring their criminal record, assets, liabilities and educational qualifications.' }
     ]);
 
     // Seed Quiz
     await Quiz.create([
       {
-        question: 'What is the minimum age to vote in India?',
-        options: ['16', '18', '21', '25'],
-        correctAnswer: '18',
-        explanation: 'In India, citizens must be at least 18 years old to be eligible to vote.',
-        difficulty: 'easy'
+        q: 'What is the minimum age to vote in India?',
+        opts: ['16 years', '18 years', '21 years', '25 years'],
+        ans: '18 years',
+        exp: 'In India, citizens must be at least 18 years old to be eligible to vote as per Article 326 of the Constitution.',
+        order: 1
       },
       {
-        question: 'Which body conducts elections in India?',
-        options: ['Parliament', 'Supreme Court', 'Election Commission of India', 'President'],
-        correctAnswer: 'Election Commission of India',
-        explanation: 'The Election Commission of India is an autonomous constitutional authority responsible for conducting elections.',
-        difficulty: 'easy'
+        q: 'Which body conducts elections in India?',
+        opts: ['Parliament of India', 'Supreme Court', 'Election Commission of India', 'President of India'],
+        ans: 'Election Commission of India',
+        exp: 'The Election Commission of India is an autonomous constitutional authority responsible for administering elections in India.',
+        order: 2
       },
       {
-        question: 'What does EVM stand for?',
-        options: ['Electronic Voting Machine', 'Electoral Verification Method', 'Election Vote Monitor', 'Electronic Verification Machine'],
-        correctAnswer: 'Electronic Voting Machine',
-        explanation: 'EVM stands for Electronic Voting Machine, used in Indian elections since 1982.',
-        difficulty: 'easy'
+        q: 'What does EVM stand for?',
+        opts: ['Electronic Voting Machine', 'Electoral Verification Method', 'Election Vote Monitor', 'Electronic Verification Machine'],
+        ans: 'Electronic Voting Machine',
+        exp: 'EVM stands for Electronic Voting Machine. It has been used in Indian elections since 1982 to record votes electronically.',
+        order: 3
       },
       {
-        question: 'How often are Lok Sabha elections held in India?',
-        options: ['Every 3 years', 'Every 4 years', 'Every 5 years', 'Every 6 years'],
-        correctAnswer: 'Every 5 years',
-        explanation: 'Lok Sabha elections are held every 5 years unless the house is dissolved earlier.',
-        difficulty: 'medium'
+        q: 'How often are Lok Sabha elections held in India?',
+        opts: ['Every 3 years', 'Every 4 years', 'Every 5 years', 'Every 6 years'],
+        ans: 'Every 5 years',
+        exp: 'Lok Sabha elections are held every 5 years unless the house is dissolved earlier by the President on the advice of the Prime Minister.',
+        order: 4
       },
       {
-        question: 'What is NOTA in Indian elections?',
-        options: ['None of the Above', 'No Official Tally Available', 'National Order of Total Abstention', 'New Option for Total Abstention'],
-        correctAnswer: 'None of the Above',
-        explanation: 'NOTA (None of the Above) allows voters to reject all candidates on the ballot.',
-        difficulty: 'medium'
+        q: 'What does NOTA stand for in Indian elections?',
+        opts: ['None of the Above', 'No Official Tally Available', 'National Order of Total Abstention', 'New Option for Total Abstention'],
+        ans: 'None of the Above',
+        exp: 'NOTA (None of the Above) was introduced in 2013 and allows voters to reject all candidates on the ballot.',
+        order: 5
       }
     ]);
 
@@ -192,9 +186,10 @@ app.get('/api/seed-now', async (req, res) => {
       message: 'Database seeded successfully!',
       data: {
         timelines: 5,
-        glossary: 6,
+        glossary: 10,
         quiz: 5,
-        admin: 'admin@election.com / Admin@123'
+        adminEmail: 'admin@election.com',
+        adminPassword: 'Admin@123'
       }
     });
 
