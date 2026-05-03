@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 // Load env vars
-dotenv.config({ path: '../.env' });
+dotenv.config();
 
 // Load models
 const Timeline = require('../models/Timeline');
